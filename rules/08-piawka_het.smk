@@ -2,7 +2,7 @@
 rule piawka_het:
 	input:
 		bed = config['fasta2bed']['dir_stacks'] + 'catalog_sorted_merged.bed',
-		vcf = config['bfctools_reheader']['output_dir']  + 'all_merged_names.vcf.gz',
+		vcf = config['python_filter']['output_dir'] + 'all_merged_names_filtered.vcf.gz',
 		poi = config['pop_index']
 	output:
 		config['piawka']['output_dir']  + 'piawka_het.tsv'
@@ -28,4 +28,4 @@ rule piawka_agg_het:
 	log:
 		config['piawka_agg']['logs'] + 'het.log'
 	shell:
-		'python scripts/02-genomic_piawka_het.py {input.het} -p {input.poi} 2>{log}'	
+		'python scripts/03-genomic_piawka_het.py {input.het} -p {input.poi} 2>{log}'	
