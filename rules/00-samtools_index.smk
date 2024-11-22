@@ -3,7 +3,7 @@ rule samtools_index:
 	input:
 		config['gstacks']['input_dir'] + '{xyz}.bam'
 	output:
-		config['gstacks']['input_dir'] + '{xyz}.bam.bai'
+		config['gstacks']['input_dir'] + '{xyz}.bam.csi'
 	threads:
 		config['threads']
 	shell:

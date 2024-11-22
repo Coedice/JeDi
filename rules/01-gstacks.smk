@@ -9,7 +9,7 @@ rule gstacks:
 	input:
 		popmap = config['pop_index'],
 		bams   = expand(config['gstacks']['input_dir'] + "{xyz}.bam", xyz=bams,),
-		ibams  = expand(config['gstacks']['input_dir'] + "{xyz}.bam.bai", xyz=bams,),
+		ibams  = expand(config['gstacks']['input_dir'] + "{xyz}.bam.csi", xyz=bams,),
 	output:
 		config['gstacks']['output_dir'] + 'catalog.fa.gz',
 	log:
