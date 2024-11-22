@@ -5,7 +5,7 @@
 	|  `--'  | |  |____ |  '--'  ||  | 
 	 \______/  |_______||_______/ |__| 
                                     
-An Snakemake pipeline to calculate unbiased genetic diversity metrics: individual heterozygosity, population nucleotide diversity (pi) and populations sequence divergence (dxy)
+A Snakemake pipeline to calculate unbiased genetic diversity metrics: individual heterozygosity, population nucleotide diversity (pi) and populations sequence divergence (dxy)
 
 1. [Requirements](#requirements)
 2. [Installation](#installation)
