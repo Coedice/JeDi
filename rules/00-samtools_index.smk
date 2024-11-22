@@ -7,4 +7,4 @@ rule samtools_index:
 	threads:
 		config['threads']
 	shell:
-		"samtools index -@ {threads} {input}"
+		"samtools index -@ -c {threads} {input}"
