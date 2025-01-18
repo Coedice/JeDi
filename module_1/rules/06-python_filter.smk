@@ -56,7 +56,7 @@ rule bcftools_submerge2:
 		config['python_filter']['logs'] + 'merge.{i}.log'
 	shell:
 		"bcftools merge --file-list {input.names} -Oz -o {output} 2>{log} && "
-		"bcftools index -t {output} 2>>{log}"
+		"bcftools index -c {output} 2>>{log}"
 
 
 ###############################################################################
@@ -72,4 +72,4 @@ rule bcftools_merge2:
 		config['threads'] 
 	shell:
 		"bcftools merge --file-list {input.names} --threads {threads} -Oz "
-		"-o {output} 2>{log} && bcftools index -t {output} 2>>{log}"
+		"-o {output} 2>{log} && bcftools index -c {output} 2>>{log}"

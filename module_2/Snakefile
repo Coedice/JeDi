@@ -1,0 +1,14 @@
+configfile: "../config.yaml"
+
+# Load rules
+include: "rules/07-piawka_het.smk"
+include: "rules/08-piawka_pi.smk"
+
+#######################################################################################
+rule all:
+	input:
+		config['piawka_agg']['output_dir']  + 'genomic_dxy_matrix.tsv',
+		config['piawka_agg']['output_dir']  + 'genomic_dxy_table.tsv',
+		config['piawka_agg']['output_dir']  + 'genomic_fst_matrix.tsv',
+		config['piawka_agg']['output_dir']  + 'genomic_fst_table.tsv',
+		config['piawka_agg']['output_dir']  + 'genomic_pi_table.tsv',

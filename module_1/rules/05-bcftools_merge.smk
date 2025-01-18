@@ -33,7 +33,7 @@ rule bcftools_submerge:
 		config['bcftools_merge']['logs'] + 'merge.{i}.log'
 	shell:
 		"bcftools merge --file-list {input.names} -Oz -o {output} 2>{log} && "
-		"bcftools index -t {output} 2>>{log}"
+		"bcftools index -c {output} 2>>{log}"
 
 ###############################################################################
 rule bcftools_merge:
