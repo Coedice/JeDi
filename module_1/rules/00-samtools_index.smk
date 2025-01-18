@@ -1,4 +1,7 @@
 #######################################################################################
+
+print(os.system(f'ls 00-reads/'))
+
 rule samtools_index:
 	input:
 		config['gstacks']['input_dir'] + '{xyz}.bam'

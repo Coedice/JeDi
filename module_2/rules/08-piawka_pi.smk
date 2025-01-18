@@ -1,9 +1,9 @@
 #######################################################################################
 rule piawka_pi:
 	input:
-		bed = config['fasta2bed']['dir_stacks'] + 'catalog_sorted_merged.bed',
-		vcf = config['python_filter']['output_dir']  + 'all_merged_filtered.vcf.gz',
-		poi = config['piawka']['output_dir']  + 'ids_kept.tsv'
+		bed = '../module_1/' + config['fasta2bed']['dir_stacks'] + 'catalog_sorted_merged.bed',
+		vcf = '../module_1/' + config['python_filter']['output_dir']  + 'all_merged_filtered.vcf.gz',
+		poi = config['pop_kept']
 	output:
 		config['piawka']['output_dir']  + 'piawka_pi_dxy_fst.tsv'
 	params:
