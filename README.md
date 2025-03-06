@@ -20,7 +20,7 @@ An Snakemake pipeline to calculate unbiased genetic diversity metrics: individua
 
 ## Requirements  <a name="requirements"></a>
 
-**mamba** needs to be installed to run snakemake pipelines, however any other conda implementation such as micromamba or miniconda also work. We recommend installing mamba through [Miniforge](https://github.com/conda-forge/miniforge).
+**mamba** needs to be installed to run JeDi, however any other conda implementation such as micromamba or miniconda also work. We recommend installing mamba through [Miniforge](https://github.com/conda-forge/miniforge).
 
 ### Unix-like platforms (Mac OS & Linux)
 
@@ -50,7 +50,7 @@ will be via the "Miniforge Prompt" installed to the start menu.
 
 
 
-## Installation and configuration  <a name="installation"></a>
+## Installation and configuration of JeDi <a name="installation"></a>
 
 1. Enter your local directory and clone JeDi's github repository:
 ```
@@ -73,33 +73,35 @@ mamba env create -f environment.yaml -n snakemake_JeDi
 
 
 ## Running JeDi  <a name="running"></a>
-JeDi is divided into two modules. Module 1 requires 3 inputs:
+JeDi is divided into two modules: Module 1 produces estimates of individual heterozygosity and Module 2 produces population-level estimates of nucleotide diversity (pi) and divergence (dxy). We recommend inspecting the estimates of individual heterozygosity to make a judgement on the inclusion of individuals for Module 2. For example, one may encounter individuals with unusually high heterozygosity that one may want to exclude from the calculation of population parameters because they are likely contaminated samples. Or one may decide to keep them because they are admixed individuals. Similarly, one may decide to modify the population assigned to some individuals after inspecting the values of individual heterozygosity (e.g., assign hybrids to their own population, etc.). The user must use their knowledge of the study system and samples to make their own informed judgement. Any changes are done on the input files for Module 2 (see below).
+
+Module 1 requires 3 inputs:
 1. A reference genome in FASTA format
-2. A tab-separated file with two columns (individual IDs and population)
+2. A tab-separated file with two columns (individual IDs and population; e.g. ind_A	pop_X)
 3. A directory with mapped reads in BAM format (each BAM file should be named with the individual ID; e.g. ind_A.bam)
 
-Modify the 3 first lines of the JeDi/*config.yaml* file, writing the absolute path to each input:
+To tell JeDi Module 1 the location of each input, modify the first 3 lines of the JeDi/*config.yaml* file, writing the absolute path to each input:
 1. ref_genome: "/my_path/my_directory/my_genome.fasta"
 2. pop_index: "/my_path/another_directory/id_pop.tsv"
 3. reads_dir: "/my_path/bams_directory/"
 
 (Optional) Modify other options in JeDi/*config.yaml* such as:
 	- *threads* employed by samtools, bcftools, piawka, and gstacks
-	- *min_map_quality* minimum PHRED-scaled mapping quality to consider a read for gstacks
- 	- *minDP* minimum genotype depth for vcftools
-	- *mac* identify singletons only [1], or singletons and private doubletons [2] with vcftools
+	- *min_map_quality* minimum PHRED-scaled mapping quality to consider a read for gstacks [default 30]
+ 	- *minDP* minimum genotype depth for vcftools [default 15]
+	- *mac* remove private doubletons (i.e., alternative allele present twice only in one individual) [2], or private doubletons *and* singletons [default 1] with vcftools. Use [0] to skip this filtering step.
 
 Module 2 requires:
+- A tab-separated file with two columns (individual IDs and population). This is the file that can be modified after inspecting the output from Module 1 (i.e., individual heterozygosities).
 
-- A tab-separated file with two columns (individual IDs and population)
+To tell JeDi Module 2 the location of the input file, modify the 4th line of the JeDi/*config.yaml* file, writing the absolute path of the ID file:
+-  pop_kept: "../my_path/another_directory/id_pop2.tsv"
 
-Modify the 4th line of the JeDi/*config.yaml* file, writing the absolute path of the ID file:
--  pop_kept: "../module_2/06-genomic_diversity/ids_kept.tsv"
 
-(Optional) Name the ID file as *ids_kept* and move it into the folder *genomic_diversity* of module_2.
 
-### Testing
-With the mamba environment activated, test that everything is in order with a --dry-run:
+
+### Testing with a dry-run
+With the mamba environment activated, test that everything is in order with a --dry-run. For example, for Module 1:
 ```
 cd /my_path/my_directory/JeDi/module_1
 mamba activate snakemake_JeDi
@@ -116,11 +118,20 @@ or the rule graph:
 snakemake --rulegraph | dot -Tsvg > ruledag.svg
 ```
 
+The same can be done for Module 2:
+```
+cd /my_path/my_directory/JeDi/module_2
+mamba activate snakemake_JeDi
+snakemake -np
+```
+
+
 
 ### Run JeDi
 
-Run JeDi with nohup in the background while sending standard output and errors to a log file (e.g. *run_2024-10-02.log*):
+Run JeDi Module 1 with 'nohup' in the background while sending standard output and errors to a log file (e.g., *run_2024-10-02.log*):
 ```
+cd /my_path/my_directory/JeDi/module_1
 nohup snakemake -j {number of cores} > run_2024-10-02.log 2>&1 &
 ```
 
@@ -133,9 +144,11 @@ mamba deactivate
 
 
 ## JeDi output  <a name="output"></a>
-The final outputs from JeDi are at:
+The output from JeDi Module 1 is:
+
+
 ```
-/my_path/my_directory/JeDi/06-genomic_diversity/genomic_*.tsv
+/my_path/my_directory/JeDi/module_1/06-genomic_diversity/genomic_het_*.tsv
 ```
 
 You can find intermediate outputs in the other directories:
