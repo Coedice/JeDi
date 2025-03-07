@@ -1,9 +1,9 @@
-						       __   _______  _______   __  
-						      |  | |   ____||       \ |  | 
-						      |  | |  |__   |  .--.  ||  | 
-						.--.  |  | |   __|  |  |  |  ||  | 
-						|  `--'  | |  |____ |  '--'  ||  | 
-		 				\______/  |_______||_______/ |__| 
+						       __     ___     ______     __  
+						      |  |  /  __ \  |       \  |__| 
+						      |  | |  |__| | |  .--.  |  __
+						.--.  |  | |  ___ /  |  |  |  | |  | 
+						|  '--'  | |  \____  |  '--'  | |  | 
+		 				 \______/   \_____/  |_______/  |__| 
                                     
 A Snakemake pipeline to calculate unbiased genetic diversity metrics: individual heterozygosity, population nucleotide diversity (π) and populations sequence divergence (dxy). JeDi avoids common pitfalls that lead to biased genetic diversity estimates (e.g., it keeps and accounts for tri- and tetra-allelic sites and invariant (monomorphic) sites, which is essential for the correct computation of π and dxy).
 
