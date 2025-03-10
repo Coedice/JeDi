@@ -81,10 +81,10 @@ To tell JeDi Module 1 the location of each input, modify the first 3 lines of th
 3. reads_dir: "/my_path/bams_directory/"
 
 (Optional) Modify other options in JeDi/*config.yaml* such as:
-	- *threads* employed by samtools, bcftools, piawka, and gstacks
-	- *min_map_quality* minimum PHRED-scaled mapping quality to consider a read for gstacks [default 30]
- 	- *minDP* minimum genotype depth for vcftools [default 15]
-	- *mac* remove private doubletons (i.e., alternative allele present twice only in one individual) [2], or private doubletons *and* singletons [default 1] with vcftools. Use [0] to skip this filtering step.
+- *threads* employed by samtools, bcftools, piawka, and gstacks
+- *min_map_quality* minimum PHRED-scaled mapping quality to consider a read for gstacks [default 30]
+- *minDP* minimum genotype depth for vcftools [default 15]
+- *mac* remove private doubletons (i.e., alternative allele present twice only in one individual) [2], or private doubletons *and* singletons [default 1] with vcftools. Use [0] to skip this filtering step.
 
 **Module 2** requires:
 - A tab-separated file with two columns (individual IDs and population). This is the file that can be modified after inspecting the output from Module 1 (i.e., individual heterozygosities).
