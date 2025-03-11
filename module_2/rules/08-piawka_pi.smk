@@ -13,8 +13,8 @@ rule piawka_pi:
 	log:
 		config['piawka']['log_pi']
 	shell:
-		"bash {params}piawka_par.sh -a '-j {threads}' -b {input.bed} -g {input.poi} "
-		"-v {input.vcf} -p 'MULT=1 FST=1 DXY=1 PIXY=1 VERBOSE=1' 2>{log} 1>{output}"
+		"piawka -j {threads} -b {input.bed} -g {input.poi} "
+		"-v {input.vcf} -m -f 2>{log} 1>{output}"
 
 
 #######################################################################################
