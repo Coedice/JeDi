@@ -5,7 +5,7 @@
 						|  '--'  | |  \____  |  '--'  | |  | 
 		 				 \______/   \_____/  |_______/  |__| 
                                     
-A Snakemake pipeline to calculate unbiased genetic diversity metrics: individual heterozygosity, population nucleotide diversity (π) and populations sequence divergence (dxy). JeDi avoids common pitfalls that lead to biased genetic diversity estimates (e.g., it keeps and accounts for tri- and tetra-allelic sites and invariant (monomorphic) sites, which is essential for the correct computation of π and dxy).
+A Snakemake pipeline to calculate unbiased genetic diversity metrics: individual heterozygosity, population nucleotide diversity (π) and populations sequence divergence (dxy). *JeDi* avoids common pitfalls that lead to biased genetic diversity estimates (e.g., it keeps and accounts for tri- and tetra-allelic sites and invariant [monomorphic] sites, which is essential for the correct computation of π and dxy).
 
 1. [Requirements](#requirements)
 2. [Installation](#installation)
@@ -19,10 +19,10 @@ A Snakemake pipeline to calculate unbiased genetic diversity metrics: individual
 
 
 ## REQUIREMENTS  <a name="requirements"></a>
-**mamba** needs to be installed to run JeDi, however any other conda implementation such as micromamba or miniconda also work. We recommend installing mamba through [Miniforge](https://github.com/conda-forge/miniforge).
+**mamba** needs to be installed to run *JeDi*, however any other conda implementation such as micromamba or miniconda also work. We recommend installing mamba through [Miniforge](https://github.com/conda-forge/miniforge).
 
 ### Unix-like platforms (Mac OS & Linux)
-Download the installer using curl or wget (or your favorite program) and run the script:
+Download the installer using 'curl' or 'wget' (or your favorite program) and run the script:
 ```
 curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"    
 bash Miniforge3-$(uname)-$(uname -m).sh
@@ -45,15 +45,15 @@ will be via the "Miniforge Prompt" installed to the start menu.
 
 
 
-## INSTALLATION AND CONFIGURATION OF JeDi <a name="installation"></a>
+## INSTALLATION AND CONFIGURATION OF *JeDi* <a name="installation"></a>
 
-1. Enter your local directory and clone JeDi's github repository:
+1. Enter your local directory and clone *JeDi*'s github repository:
 ```
 cd /my_path/my_directory/
 git clone https://github.com/drobledoruiz/JeDi
 ```
 
-2. Enter the pipeline folder and create a mamba environment (you can chose its name, e.g. snakemake_JeDi):
+2. Enter the pipeline folder and create a mamba environment (you can chose its name, e.g. _snakemake_JeDi_):
 ```
 cd JeDi/
 mamba env create -f environment.yaml -n snakemake_JeDi
@@ -67,20 +67,20 @@ mamba env create -f environment.yaml -n snakemake_JeDi
 
 
 
-## RUNNING JeDi  <a name="running"></a>
-JeDi is divided in two modules: Module 1 produces estimates of individual heterozygosity and Module 2 produces population-level estimates of nucleotide diversity (π) and divergence (dxy). We recommend inspecting the estimates of individual heterozygosity produced by Module 1 to make a judgement on the inclusion of individuals for Module 2. For example, one may encounter individuals with unusually high heterozygosity that one may want to exclude from the calculation of population parameters because they are likely contaminated samples. Or one may decide to keep them because they are admixed individuals. Similarly, one may decide to modify the population assigned to some individuals after inspecting the values of individual heterozygosity (e.g., assign hybrids to their own population, etc.). The user must use their knowledge of the study system and samples to make their own informed judgement. Any desired changes should be done on the input file for Module 2 (see below).
+## RUNNING *JeDi*  <a name="running"></a>
+*JeDi* is divided in two modules: Module 1 produces estimates of individual heterozygosity and Module 2 produces population-level estimates of nucleotide diversity (π) and divergence (dxy). We recommend inspecting the estimates of individual heterozygosity produced by Module 1 to make a judgement on the inclusion of individuals for Module 2. For example, one may encounter individuals with unusually high heterozygosity that one may want to exclude from the calculation of population parameters because they are likely contaminated samples. Or one may decide to keep them because they are admixed individuals. Similarly, one may decide to modify the population assigned to some individuals after inspecting the values of individual heterozygosity (e.g., assign hybrids to their own population, etc.). The user must use their knowledge of the study system and samples to make their own informed judgement. Any desired changes should be done on the input file for Module 2 (see below).
 
 **Module 1** requires 3 inputs:
 1. A reference genome in FASTA format
 2. A tab-separated file with two columns (individual IDs and population; e.g. ind_A	pop_X)
-3. A directory with mapped reads in BAM format (each BAM file should be named with the individual ID; e.g. ind_A.bam)
+3. A directory with mapped reads in BAM format (each BAM file should be named with the individual ID; e.g. *ind_A.bam*)
 
-To tell JeDi Module 1 the location of each input, modify the first 3 lines of the JeDi/*config.yaml* file, writing the absolute path to each input:
-1. ref_genome: "/my_path/my_directory/my_genome.fasta"
-2. pop_index: "/my_path/another_directory/id_pop.tsv"
-3. reads_dir: "/my_path/bams_directory/"
+To tell *JeDi* Module 1 the location of each input, modify the first 3 lines of the *JeDi/config.yaml* file, writing the absolute path to each input:
+1. ref_genome: "*/my_path/my_directory/my_genome.fasta*"
+2. pop_index: "*/my_path/another_directory/id_pop.tsv*"
+3. reads_dir: "*/my_path/bams_directory/*"
 
-(Optional) Modify other options in JeDi/*config.yaml* such as:
+(Optional) Modify other options in *JeDi/config.yaml* such as:
 - *threads* employed by samtools, bcftools, piawka, and gstacks
 - *min_map_quality* minimum PHRED-scaled mapping quality to consider a read for gstacks [default 30]
 - *minDP* minimum genotype depth for vcftools [default 15]
@@ -89,8 +89,8 @@ To tell JeDi Module 1 the location of each input, modify the first 3 lines of th
 **Module 2** requires:
 - A tab-separated file with two columns (individual IDs and population). This is the file that can be modified after inspecting the output from Module 1 (i.e., individual heterozygosities).
 
-To tell JeDi Module 2 the location of the input file, modify the 4th line of the JeDi/*config.yaml* file, writing the absolute path of the ID file:
--  pop_kept: "../my_path/another_directory/id_pop2.tsv"
+To tell *JeDi* Module 2 the location of the input file, modify the 4th line of the *JeDi/config.yaml* file, writing the absolute path of the ID file:
+-  pop_kept: "*../my_path/another_directory/id_pop2.tsv*"
 
 
 
@@ -100,7 +100,7 @@ With the mamba environment activated, test that everything is in order with a --
 ```
 cd /my_path/my_directory/JeDi/module_1
 mamba activate snakemake_JeDi
-snakemake -np
+snakemake -np > dry_run.log
 ```
 
 To visualize the steps to be run, produce the Directed Acyclic Graph (DAG):
@@ -117,21 +117,21 @@ The same can be done for Module 2:
 ```
 cd /my_path/my_directory/JeDi/module_2
 mamba activate snakemake_JeDi
-snakemake -np
+snakemake -np dry_run.log
 ```
 
 
 
-### Run JeDi
+### Run *JeDi*
 
-- Run JeDi Module 1 with 'nohup' in the background while sending standard output and errors to a log file (e.g., *mod1_2024-10-02.log*):
+- Run *JeDi* Module 1 with 'nohup' in the background while sending standard output and errors to a log file (e.g., *mod1_2024-10-02.log*):
 ```
 cd /my_path/my_directory/JeDi/module_1
 nohup snakemake -j {number of cores} > mod1_2024-10-02.log 2>&1 &
 ```
 Don't forget to check the output individual heterozygosities before running Module 2.
 
-- Run JeDi Module 2:
+- Run *JeDi* Module 2:
 ```
 cd /my_path/my_directory/JeDi/module_2
 nohup snakemake -j {number of cores} > mod2_2024-10-03.log 2>&1 &
@@ -145,8 +145,8 @@ mamba deactivate
 
 
 
-## JeDi OUTPUT  <a name="output"></a>
-- The output of **JeDi Module 1** is:
+## *JeDi*'s OUTPUT  <a name="output"></a>
+- The output of ***JeDi* Module 1** is:
 
 Final per-individual genome-wide standardized heterozygosities
 ```
@@ -164,7 +164,7 @@ chr1_3314_3441        198     ind_A     .       110     het_pixy        0.009090
 chr1_3314_3441        198     ind_B     .       100     het_pixy        0.01      	2       200
 ```
 
-- The output of **JeDi Module 2** is:
+- The output of ***JeDi* Module 2** is:
 
 Final per-population genome-wide π
 ```
@@ -197,14 +197,14 @@ You can find intermediate outputs in the other directories:
 /my_path/my_directory/JeDi/module_1/05-python_filter/
 ```
 
-JeDi uses [piawka](https://github.com/novikovalab/piawka); all credits to its authors :)
+*JeDi* uses [piawka](https://github.com/novikovalab/piawka); all credits to its authors :)
 
 
 
 
 ---------------------------------------------------------------------------
 ## CITATION <a name="citation"></a>
-If you use JeDi, please cite "Pavlova, et al. A shift to metapopulation genetic management for persistence of a species threatened by fragmentation: the case of an endangered Australian freshwater fish. Authorea. October 04, 2024" [DOI: 10.22541/au.172801777.74141428/v1](https://www.authorea.com/doi/full/10.22541/au.172801777.74141428)
+If you use *JeDi*, please cite "Pavlova, et al. A shift to metapopulation genetic management for persistence of a species threatened by fragmentation: the case of an endangered Australian freshwater fish. Authorea. October 04, 2024" [DOI: 10.22541/au.172801777.74141428/v1](https://www.authorea.com/doi/full/10.22541/au.172801777.74141428)
 
 Do not hesitate to contact us if you have any questions. We are happy to help!
 - Diana A. Robledo-Ruiz, diana.robledoruiz1@monash.edu
