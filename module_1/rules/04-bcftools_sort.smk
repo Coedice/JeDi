@@ -11,5 +11,5 @@ rule bcftools_sort:
 	shell:
 		"mkdir -p {params.tempdir} && "
 		"bcftools sort --temp-dir {params.tempdir} {input} -Oz -o {output} 2>{log} && "
-		"bcftools index -t {output} 2>>{log} && "
+		"bcftools index -c {output} 2>>{log} && "
 		"rmdir {params.tempdir}"

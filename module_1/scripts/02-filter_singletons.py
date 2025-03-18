@@ -75,12 +75,12 @@ if __name__ == '__main__':
     # Call the function
     if filter_singletons_vcf(args['vcf'], args['output'], args['singletons'], args['name'], gzip=args['gzip']):
         os.system(f"bgzip -f {args['output']}")
-        os.system(f"bcftools index -t {args['output'] + '.gz'}")
+        os.system(f"bcftools index -c {args['output'] + '.gz'}")
     else:
         # If there are no position to remove, create symbolik link to previous vcf
         if not os.path.islink(args['output'] + '.gz'):
             os.symlink( os.path.abspath(args['vcf']),
                         args['output'] + '.gz')
-        if not os.path.islink(args['output'] + 'gz.tbi'):
-            os.symlink( os.path.abspath(args['vcf']    + '.tbi'),
-                        args['output'] + '.gz.tbi')
+        if not os.path.islink(args['output'] + 'gz.csi'):
+            os.symlink( os.path.abspath(args['vcf']    + '.csi'),
+                        args['output'] + '.gz.csi')

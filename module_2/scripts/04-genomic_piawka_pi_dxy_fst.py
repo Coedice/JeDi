@@ -22,11 +22,11 @@ def parse_piawka_dxy(input_filename,):
 	cols = ['column_1', 'column_2', 'column_3', 'column_4', 'column_5','column_6', 'column_7','column_8','column_9','column_10','column_11']
 
 	# Read data into a Lazy DataFrame
-	df = pl.scan_csv(input_filename,separator="\t",has_header=False,schema=schema).rename(dict(zip(cols,names)))
+	df = pl.scan_csv(input_filename,separator="\t",has_header=False,schema=schema,ignore_errors=True).rename(dict(zip(cols,names)))
 
 	# Filters per metric
-	df_pi  = df.filter((pl.col('metric')=='pi_pixy')).select(['pop1','numerator','denominator'])
-	df_dxy = df.filter((pl.col('metric')=='dxy_pixy')).select(['pop1','pop2','numerator','denominator'])
+	df_pi  = df.filter((pl.col('metric')=='pi')).select(['pop1','numerator','denominator'])
+	df_dxy = df.filter((pl.col('metric')=='Dxy')).select(['pop1','pop2','numerator','denominator'])
 	df_fst = df.filter((pl.col('metric')=='Fst_HUD')).select(['pop1','pop2','value'])
 
 	#--------------------------------------------------

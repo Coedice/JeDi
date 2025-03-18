@@ -13,8 +13,8 @@ rule piawka_het:
 	log:
 		config['piawka']['log_het']
 	shell:
-		"bash {params}piawka_par.sh -a '-j {threads}' -b {input.bed} -g {input.poi} "
-		"-v {input.vcf} -p 'HET=1 MULT=1 PIXY=1 VERBOSE=1 2>{log} 1>{output}"
+		"piawka -j {threads} -b {input.bed} -g {input.poi} "
+		"-v {input.vcf} -H -m 2>{log} 1>{output}"
 
 #######################################################################################
 rule piawka_agg_het:
@@ -22,8 +22,7 @@ rule piawka_agg_het:
 		het = config['piawka']['output_dir']  + 'piawka_het.tsv',
 		poi = config['pop_index']
 	output:
-		config['piawka_agg']['output_dir']  + 'genomic_het_table.tsv',
-		config['piawka']['output_dir']  + 'ids_kept.tsv'
+		config['piawka_agg']['output_dir']  + 'genomic_het_table.tsv'
 	log:
 		config['piawka_agg']['logs'] + 'het.log'
 	shell:

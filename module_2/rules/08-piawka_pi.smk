@@ -1,9 +1,9 @@
 #######################################################################################
 rule piawka_pi:
 	input:
-		bed = config['fasta2bed']['dir_stacks'] + 'catalog_sorted_merged.bed',
-		vcf = config['python_filter']['output_dir']  + 'all_merged_filtered.vcf.gz',
-		poi = config['piawka']['output_dir']  + 'ids_kept.tsv'
+		bed = '../module_1/' + config['fasta2bed']['dir_stacks'] + 'catalog_sorted_merged.bed',
+		vcf = '../module_1/' + config['python_filter']['output_dir']  + 'all_merged_filtered.vcf.gz',
+		poi = config['pop_kept']
 	output:
 		config['piawka']['output_dir']  + 'piawka_pi_dxy_fst.tsv'
 	params:
@@ -13,8 +13,8 @@ rule piawka_pi:
 	log:
 		config['piawka']['log_pi']
 	shell:
-		"bash {params}piawka_par.sh -a '-j {threads}' -b {input.bed} -g {input.poi} "
-		"-v {input.vcf} -p 'MULT=1 FST=1 DXY=1 PIXY=1 VERBOSE=1' 2>{log} 1>{output}"
+		"piawka -j {threads} -b {input.bed} -g {input.poi} "
+		"-v {input.vcf} -m -f 2>{log} 1>{output}"
 
 
 #######################################################################################
