@@ -82,5 +82,7 @@ else:
 			config['bcftools_merge']['output_dir']  + 'all_merged.vcf.gz'
 		output:
 			ndir + 'all_merged_filtered.vcf.gz'
+		log:
+			config['python_filter']['logs'] + 'skip_all_merged.log'
 		shell:
-			"ln -sf $(pwd)/{input} {output}"
+			"ln -sf $(pwd)/{input} {output} && bcftools index -c {output} 2>>{log}"

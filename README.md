@@ -13,8 +13,9 @@ A Snakemake pipeline to calculate unbiased genetic diversity metrics: individual
 4. [JeDi output](#output)
 5. [Citation](#citation)
 
-<img src="dag.svg " width="1000" height="550" />
-
+<p align="center">
+<img src="JeDi_pipeline_v2.png" width="400" height="714" />
+</p>
 
 
 
