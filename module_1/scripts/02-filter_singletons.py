@@ -24,7 +24,7 @@ def write_header(ivcf_path, ovcf_path, gzip=True,):
                     break
                 else:
                     ofile.write(line)
-    return [x.split('\n')[0] if '\n' in x else x for x in vcf_names]
+    return [x.split('\n')[0].replace('.bam','').split('/')[-1] for x in vcf_names]
 
 
 def filter_singletons_vcf(vcf_path, out_vcf_path, singletons_path, indv_name, gzip=True):
