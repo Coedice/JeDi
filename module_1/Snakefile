@@ -8,9 +8,11 @@ with open('00-data/id.txt') as f:
 	bams = f.read().splitlines()
 bams.sort()
 
+reads_dir = os.path.normpath(config['reads_dir'])
+
 for x in bams:
-	obam = config['reads_dir'] + x + '.bam'
-	sbam = '00-reads/' + x + '.bam'
+	obam = f'{reads_dir}/{x}.bam'
+	sbam = f'00-reads/{x}.bam'
 	if not os.path.islink(sbam):
 		os.symlink( obam, sbam)
 
