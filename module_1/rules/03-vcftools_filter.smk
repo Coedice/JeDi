@@ -1,7 +1,7 @@
 #######################################################################################
 rule vcftools_filter:
 	input:
-		config['bcftools_call']['output_dir'] + '{xyz}.vcf.gz'
+		config['bcftools_call']['output_dir'] + '{xyz}_reheaded.vcf.gz'
 	output:
 		config['vcftools_filter']['output_dir'] + '{xyz}.vcf.gz'
 	log:
