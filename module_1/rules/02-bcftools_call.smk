@@ -5,7 +5,7 @@ rule bcftools_call:
 		bed = config['fasta2bed']['dir_stacks'] + 'catalog_sorted_merged.bed',
 		genome = config['ref_genome'],
 	output:
-		config['bcftools_call']['output_dir'] + '{xyz}.vcf.gz'
+		config['bcftools_call']['output_dir'] + '_{xyz}_.vcf.gz'
 	log:
 		config['bcftools_call']['logs'] + '{xyz}.log'
 	shell:
