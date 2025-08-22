@@ -1,6 +1,6 @@
 #######################################################################################
 
-print(os.system(f'ls 00-reads/'))
+#print(os.system(f'ls 00-reads/'))
 
 rule samtools_index:
 	input:
