@@ -3,12 +3,15 @@ FROM mambaorg/micromamba:1.5.10
 
 USER root
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
+# Install system dependencies (arm64-safe)
+RUN apt-get clean \
+ && rm -rf /var/lib/apt/lists/* \
+ && apt-get update -o Acquire::Retries=5 -o Acquire::http::Pipeline-Depth=0 --allow-releaseinfo-change \
+ && apt-get install -y --no-install-recommends \
     build-essential \
     curl \
     git \
-    && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/*
 
 # Switch to micromamba user
 USER $MAMBA_USER
@@ -24,7 +27,7 @@ RUN micromamba install -y -n base -c conda-forge -c bioconda \
     mawk=1.3.4 \
     graphviz \
     piawka \
-    && micromamba clean --all --yes
+ && micromamba clean --all --yes
 
 # Install uv
 USER root
@@ -41,5 +44,5 @@ COPY --chown=$MAMBA_USER:$MAMBA_USER . /workspace/
 USER root
 RUN uv sync
 
-# Default command - stay as root for runtime
+# Default command
 CMD ["/bin/bash"]

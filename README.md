@@ -2,7 +2,7 @@
 
 A Snakemake pipeline to calculate unbiased genetic diversity metrics: individual heterozygosity, population nucleotide diversity (π) and populations sequence divergence (dxy). JeDi avoids common pitfalls that lead to biased genetic diversity estimates (e.g., it keeps and accounts for tri- and tetra-allelic sites and invariant [monomorphic] sites, which is essential for the correct computation of π and dxy).
 
-1. [Quick Start with Docker](#quick-start-with-docker)
+1. [Quick Start](#quick-start)
 2. [Installation and Configuration](#installation-and-configuration)
 3. [Output](#output)
 4. [Citation](#citation)
@@ -11,13 +11,12 @@ A Snakemake pipeline to calculate unbiased genetic diversity metrics: individual
 <img src="pipeline.png" width="400" height="714" alt="JeDi pipeline workflow diagram showing the two-module pipeline structure for calculating genetic diversity metrics" />
 </div>
 
-## Quick Start with Docker
-
-The easiest way to run JeDi is with Docker, which handles all dependencies automatically.
+## Quick Start
 
 **Requirements:**
+
 - Docker installed ([Get Docker](https://www.docker.com/get-started))
-- Your data organized in a directory (see [Data Organization](#data-organization) below)
+- Your data organised in a directory (see [Data Organisation](#data-organisation) below)
 
 **Quick Start:**
 
@@ -28,7 +27,7 @@ git clone https://github.com/drobledoruiz/JeDi
 cd JeDi
 ```
 
-2. Organize your data in a directory with:
+2. Organise your data in a directory with:
    - BAM files (e.g., `sample1.bam`, `sample2.bam`)
    - Reference genome (e.g., `reference.fa`)
    - Population mapping file (e.g., `id_pop.txt`)
@@ -47,18 +46,20 @@ Results will be in `/path/to/your/data/output/`
 
 ## Installation and Configuration
 
-### Data Organization
+### Data Organisation
 
 Your input directory should contain:
 
 **Required files:**
+
 1. **Reference genome**: `*.fa` or `*.fasta` file
 2. **Population mapping**: `id_pop*.txt` file with two tab-separated columns (sample ID, population)
    - Example: `A0119  PopA`
 3. **BAM files**: One per sample, named with sample IDs (e.g., `A0119.bam`)
 
 **Example structure:**
-```
+
+```text
 /my_data/
 ├── reference.fa
 ├── id_pop.txt
@@ -68,7 +69,8 @@ Your input directory should contain:
 ```
 
 **Output structure:**
-```
+
+```text
 /my_data/output/
 ├── sample_analysis/
 │   ├── 06-genomic_diversity/
@@ -89,28 +91,6 @@ Your input directory should contain:
 - `min_map_quality` — Minimum PHRED-scaled mapping quality [default 30]
 - `minDP` — Minimum genotype depth [default 15]
 - `mac` — Filter mode for singletons/doubletons [default 1]
-
-### Local Setup (Optional)
-
-If you prefer to run without Docker (requires manual tool installation):
-
-**macOS & Linux:**
-
-Install uv:
-
-```sh
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
-Install bioinformatics tools:
-
-```sh
-mamba install -c conda-forge -c bioconda stacks bcftools vcftools samtools bedtools mawk graphviz piawka
-```
-
-**Windows:**
-
-Use WSL 2 with Ubuntu 20.04+, then follow macOS & Linux instructions above.
 
 ## Running the Pipeline
 
@@ -134,37 +114,20 @@ See all available commands:
 make help
 ```
 
-For local execution (requires tools installed):
-
-```sh
-make local-sample      # Run Sample Analysis locally
-make local-population  # Run Population Analysis locally
-```
-
-For development:
-
-```sh
-make lint              # Check code with ruff and isort
-make format            # Auto-format code
-make test              # Run unit tests
-make local-dry-sample  # Preview Sample Analysis steps
-make local-dry-population # Preview Population Analysis steps
-```
-
 ## Output
 
 ### Sample Analysis Output
 
-Final per-individual genome-wide standardized heterozygosities
+Final per-individual genome-wide standardised heterozygosities
 
 ```text
-/my_path/my_directory/JeDi/sample_analysis/06-genomic_diversity/genomic_het_table.tsv
+sample_analysis/06-genomic_diversity/genomic_het_table.tsv
 ```
 
-Per-locus (i.e., genomic region) standardized heterozygosities that can be used to create Manhattan plots (raw output from piawka)
+Per-locus (i.e., genomic region) standardised heterozygosities that can be used to create Manhattan plots (raw output from piawka)
 
 ```text
-/my_path/my_directory/JeDi/sample_analysis/06-genomic_diversity/piawka_het.tsv
+sample_analysis/06-genomic_diversity/piawka_het.tsv
 ```
 
 The structure of this file is locus_start_end, locus_n_sites, id, ".", n_used_sites, metric, value, numerator(differences), denominator(comparisons):
@@ -179,20 +142,20 @@ chr1_3314_3441        198     ind_B     .       100     het_pixy        0.01    
 Final per-population genome-wide π
 
 ```text
-/my_path/my_directory/JeDi/population_analysis/06-genomic_diversity/genomic_pi_table.tsv
+population_analysis/06-genomic_diversity/genomic_pi_table.tsv
 ```
 
 Final population-pairwise genome-wide dxy in vertical table and matrix format, respectively
 
 ```text
-/my_path/my_directory/JeDi/population_analysis/06-genomic_diversity/genomic_dxy_table.tsv
-/my_path/my_directory/JeDi/population_analysis/06-genomic_diversity/genomic_dxy_matrix.tsv
+population_analysis/06-genomic_diversity/genomic_dxy_table.tsv
+population_analysis/06-genomic_diversity/genomic_dxy_matrix.tsv
 ```
 
 Per-locus (i.e., genomic region) π and dxy that can be used to create Manhattan plots (raw output from piawka)
 
 ```text
-/my_path/my_directory/JeDi/population_analysis/06-genomic_diversity/2_piawka_pi_dxy_fst.txt
+population_analysis/06-genomic_diversity/2_piawka_pi_dxy_fst.txt
 ```
 
 The structure of this file is locus_start_end, locus_n_sites, pop1, pop2, n_used_sites, metric, value, numerator(differences), denominator(comparisons), n_geno, n_miss
@@ -205,11 +168,11 @@ chr1_3314_3441        198     pop_X     pop_Y       100     dxy_pixy 0        0 
 You can find intermediate outputs in the other directories:
 
 ```text
-/my_path/my_directory/JeDi/sample_analysis/01-gstacks/
-/my_path/my_directory/JeDi/sample_analysis/02-bcftools_call/
-/my_path/my_directory/JeDi/sample_analysis/03-vcftools_filter/
-/my_path/my_directory/JeDi/sample_analysis/04-bcftools_merge/
-/my_path/my_directory/JeDi/sample_analysis/05-python_filter/
+sample_analysis/01-gstacks/
+sample_analysis/02-bcftools_call/
+sample_analysis/03-vcftools_filter/
+sample_analysis/04-bcftools_merge/
+sample_analysis/05-python_filter/
 ```
 
 JeDi uses [piawka](https://github.com/novikovalab/piawka). All credits to its authors.

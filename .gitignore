@@ -69,10 +69,6 @@ population_analysis/06-genomic_diversity/
 population_analysis/logs/
 population_analysis/.snakemake/
 
-# Data
-test_data/
-test_data_backup_old/
-
 # Docker
 .dockerignore
 
